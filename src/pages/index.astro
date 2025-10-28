@@ -1,16 +1,306 @@
 ---
-
 ---
 
+<!doctype html>
 <html lang="en">
 	<head>
-		<meta charset="utf-8" />
+		<meta charset="UTF-8" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta name="description" content="Voice journaling that works how you think. No timeouts. No limits. Just your thoughts, captured." />
+		<title>HyperJournal - Voice journaling without compromise</title>
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 	</head>
 	<body>
-		<h1>Astro</h1>
+		<style is:global>
+			* {
+				margin: 0;
+				padding: 0;
+				box-sizing: border-box;
+			}
+
+			body {
+				font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+				background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+				color: #e5e5e5;
+				line-height: 1.6;
+				overflow-x: hidden;
+			}
+
+			.container {
+				max-width: 1200px;
+				margin: 0 auto;
+				padding: 0 2rem;
+			}
+
+			/* Hero Section */
+			.hero {
+				min-height: 100vh;
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+				align-items: center;
+				position: relative;
+				padding: 4rem 2rem;
+			}
+
+			.hero-content {
+				text-align: center;
+				max-width: 900px;
+				margin-bottom: 6rem;
+			}
+
+			.hero-logo {
+				width: clamp(180px, 25vw, 280px);
+				height: auto;
+				margin: 0 auto 3rem;
+				filter: drop-shadow(0 4px 20px rgba(255, 255, 255, 0.1));
+				animation: fadeInUp 0.8s ease-out;
+			}
+
+			.hero h1 {
+				font-size: clamp(3rem, 8vw, 6rem);
+				font-weight: 900;
+				background: linear-gradient(135deg, #ffffff 0%, #a0a0a0 100%);
+				-webkit-background-clip: text;
+				-webkit-text-fill-color: transparent;
+				background-clip: text;
+				margin-bottom: 2rem;
+				letter-spacing: -0.02em;
+				animation: fadeInUp 0.8s ease-out;
+			}
+
+			.hero p {
+				font-size: clamp(1.25rem, 3vw, 1.75rem);
+				color: #b0b0b0;
+				margin-bottom: 3rem;
+				animation: fadeInUp 0.8s ease-out 0.2s both;
+			}
+
+			/* Screenshots Section */
+			.screenshots-section {
+				margin: 6rem 0;
+				animation: fadeInUp 0.8s ease-out 0.6s both;
+			}
+
+			.screenshots-grid {
+				display: grid;
+				grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+				gap: 2rem;
+				max-width: 1000px;
+				margin: 0 auto;
+			}
+
+			.screenshots-grid img {
+				width: 100%;
+				height: auto;
+				border-radius: 24px;
+				border: 1px solid rgba(255, 255, 255, 0.08);
+				background: rgba(255, 255, 255, 0.02);
+				transition: all 0.3s ease;
+				box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+			}
+
+			.screenshots-grid img:hover {
+				transform: translateY(-8px) scale(1.02);
+				border-color: rgba(255, 255, 255, 0.15);
+				box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+			}
+
+			/* Bullets Section */
+			.bullets {
+				display: grid;
+				grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+				gap: 2rem;
+				margin-bottom: 4rem;
+				animation: fadeInUp 0.8s ease-out 0.4s both;
+			}
+
+			.bullet-card {
+				background: rgba(255, 255, 255, 0.03);
+				backdrop-filter: blur(20px);
+				border: 1px solid rgba(255, 255, 255, 0.08);
+				border-radius: 24px;
+				padding: 2.5rem;
+				transition: all 0.3s ease;
+				position: relative;
+				overflow: hidden;
+			}
+
+			.bullet-card::before {
+				content: '';
+				position: absolute;
+				top: 0;
+				left: 0;
+				right: 0;
+				height: 2px;
+				background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+				transform: translateX(-100%);
+				transition: transform 0.6s ease;
+			}
+
+			.bullet-card:hover {
+				border-color: rgba(255, 255, 255, 0.15);
+				background: rgba(255, 255, 255, 0.05);
+				transform: translateY(-4px);
+			}
+
+			.bullet-card:hover::before {
+				transform: translateX(100%);
+			}
+
+			.bullet-card h3 {
+				font-size: 1.25rem;
+				font-weight: 700;
+				margin-bottom: 1rem;
+				color: #ffffff;
+			}
+
+			.bullet-card p {
+				font-size: 1rem;
+				color: #b0b0b0;
+				line-height: 1.6;
+			}
+
+			/* CTA Section */
+			.cta {
+				text-align: center;
+				margin-top: 4rem;
+				animation: fadeInUp 0.8s ease-out 0.6s both;
+			}
+
+			.app-store-buttons {
+				display: flex;
+				gap: 1.5rem;
+				justify-content: center;
+				flex-wrap: wrap;
+				margin-top: 2rem;
+			}
+
+			.app-store-button {
+				display: inline-flex;
+				align-items: center;
+				justify-content: center;
+				background: rgba(255, 255, 255, 0.05);
+				border: 1px solid rgba(255, 255, 255, 0.1);
+				border-radius: 16px;
+				padding: 1rem 2rem;
+				text-decoration: none;
+				color: #ffffff;
+				font-weight: 600;
+				transition: all 0.3s ease;
+				backdrop-filter: blur(10px);
+			}
+
+			.app-store-button:hover {
+				background: rgba(255, 255, 255, 0.1);
+				border-color: rgba(255, 255, 255, 0.2);
+				transform: translateY(-2px);
+			}
+
+			/* Animations */
+			@keyframes fadeInUp {
+				from {
+					opacity: 0;
+					transform: translateY(30px);
+				}
+				to {
+					opacity: 1;
+					transform: translateY(0);
+				}
+			}
+
+			/* Responsive */
+			@media (max-width: 768px) {
+				.hero h1 {
+					font-size: 3rem;
+				}
+
+				.bullets {
+					grid-template-columns: 1fr;
+				}
+
+				.screenshots-grid {
+					grid-template-columns: 1fr;
+				}
+
+				.app-store-buttons {
+					flex-direction: column;
+				}
+			}
+
+			/* Footer */
+			.footer {
+				text-align: center;
+				padding: 3rem 2rem;
+				color: #666;
+				font-size: 0.9rem;
+				border-top: 1px solid rgba(255, 255, 255, 0.05);
+				margin-top: 6rem;
+			}
+		</style>
+
+		<main>
+			<section class="hero">
+				<div class="container">
+					<div class="hero-content">
+						<img src="/hyperjournal-logo.png" alt="HyperJournal" class="hero-logo" />
+						<h1>HyperJournal</h1>
+						<p>Voice journaling that works how you think.<br>No timeouts. No limits. Just your thoughts, captured.</p>
+					</div>
+
+					<div class="screenshots-section">
+						<h2 style="text-align: center; font-size: 2rem; font-weight: 700; margin-bottom: 3rem; color: #ffffff;">See It In Action</h2>
+						<div class="screenshots-grid">
+							<img src="/hyperjournal-screenshot-1c.png" alt="HyperJournal Screenshot 1" />
+							<img src="/hyperjournal-screenshot-2.png" alt="HyperJournal Screenshot 2" />
+							<img src="/hyperjournal-screenshot-3.png" alt="HyperJournal Screenshot 3" />
+							<img src="/hyperjournal-screenshot-4.png" alt="HyperJournal Screenshot 4" />
+						</div>
+					</div>
+
+					<div class="bullets">
+						<div class="bullet-card">
+							<h3>Lightning Fast</h3>
+							<p>Sub-2-second start. No menus. No decisions. Just start talking or typing.</p>
+						</div>
+
+						<div class="bullet-card">
+							<h3>Zero Friction</h3>
+							<p>Built for one thing: getting thoughts out of your head and into digital form with zero friction.</p>
+						</div>
+
+						<div class="bullet-card">
+							<h3>Get Out of Your Way</h3>
+							<p>Capture it. Find it. Decide what happens next. HyperJournal handles the first two and gets out of your way for the third.</p>
+						</div>
+
+						<div class="bullet-card">
+							<h3>Export Anywhere</h3>
+							<p>Capture in HyperJournal. Export anywhere. Because the best capture tool doesn't lock you in—it sets you free.</p>
+						</div>
+					</div>
+
+					<div class="cta">
+						<div class="app-store-buttons">
+							<a href="#" class="app-store-button">
+								Download on App Store
+							</a>
+							<a href="#" class="app-store-button">
+								Get it on Google Play
+							</a>
+						</div>
+					</div>
+				</div>
+			</section>
+		</main>
+
+		<footer class="footer">
+			<div class="container">
+				<p>&copy; 2025 HyperJournal. Built with intention.</p>
+			</div>
+		</footer>
 	</body>
 </html>
